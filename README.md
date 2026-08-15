@@ -43,9 +43,9 @@ Detalle completo de reglas, nomenclatura y stack de estilos en [SKILL.md](SKILL.
 ### Claude Code
 
 ```bash
-git clone https://github.com/Espiritu16/frontend-estructura.git
+git clone https://github.com/Espiritu16/skill-frontend-estructura.git
 mkdir -p ~/.claude/skills/frontend-estructura
-cp frontend-estructura/SKILL.md ~/.claude/skills/frontend-estructura/SKILL.md
+cp skill-frontend-estructura/SKILL.md ~/.claude/skills/frontend-estructura/SKILL.md
 ```
 
 Con eso queda disponible como skill global — se activa sola cuando pidas crear, organizar o revisar un proyecto frontend, o puedes invocarla explícito con `/frontend-estructura`.
@@ -63,9 +63,9 @@ Con eso queda disponible como skill global — se activa sola cuando pidas crear
 ### Codex
 
 ```bash
-git clone https://github.com/Espiritu16/frontend-estructura.git
+git clone https://github.com/Espiritu16/skill-frontend-estructura.git
 mkdir -p ~/.codex/skills/frontend-estructura
-cp frontend-estructura/SKILL.md ~/.codex/skills/frontend-estructura/SKILL.md
+cp skill-frontend-estructura/SKILL.md ~/.codex/skills/frontend-estructura/SKILL.md
 ```
 
 Codex no siempre auto-descubre skills por descripción de la misma forma en cada sesión. Para asegurarte de que la reconozca y la use desde el inicio de una conversación, **copia y pega este prompt**:
