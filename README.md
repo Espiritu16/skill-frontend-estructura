@@ -11,32 +11,74 @@ Skill para Claude Code y Codex que define una estructura de carpetas escalable y
 
 ## Estructura que aplica
 
+Ejemplo real con tres módulos (React + shadcn/ui + Tailwind):
+
 ```
 src/
 ├── modulos/
-│   └── <dominio>/
-│       ├── componentes/        # componentes SOLO de este módulo (+ tests junto al archivo)
+│   ├── usuarios/
+│   │   ├── componentes/
+│   │   │   ├── TarjetaUsuario.tsx
+│   │   │   └── TarjetaUsuario.test.tsx      # test junto al archivo que prueba
+│   │   ├── hooks/
+│   │   │   └── useUsuarios.ts
+│   │   ├── servicios/
+│   │   │   └── usuarioService.ts
+│   │   ├── tipos/
+│   │   │   └── usuario.types.ts
+│   │   ├── vistas/
+│   │   │   ├── UsuariosListaView.tsx
+│   │   │   ├── UsuarioDetalleView.tsx
+│   │   │   └── UsuarioCrearView.tsx
+│   │   └── index.ts                          # única puerta pública del módulo
+│   │
+│   ├── productos/
+│   │   ├── componentes/
+│   │   ├── hooks/
+│   │   ├── servicios/
+│   │   ├── tipos/
+│   │   ├── vistas/
+│   │   │   ├── ProductosListaView.tsx
+│   │   │   └── ProductoDetalleView.tsx
+│   │   └── index.ts
+│   │
+│   └── pedidos/
+│       ├── componentes/
 │       ├── hooks/
 │       ├── servicios/
 │       ├── tipos/
-│       ├── vistas/             # lista, detalle, crear/editar
-│       └── index.ts            # única puerta pública del módulo
+│       ├── vistas/
+│       │   └── PedidosListaView.tsx
+│       └── index.ts
+│
 ├── compartido/
 │   ├── componentes/
-│   │   ├── ui/                 # generado por shadcn/ui, shadcn-vue o spartan/ng
-│   │   └── layout/              # Header, Footer, Sidebar — una sola vez, reutilizados
+│   │   ├── ui/                                # generado por shadcn/ui, shadcn-vue o spartan/ng
+│   │   └── layout/
+│   │       ├── Header.tsx                     # único header, reutilizado en todo el proyecto
+│   │       ├── Footer.tsx
+│   │       └── Sidebar.tsx
 │   ├── hooks/
+│   │   └── useDebounce.ts
 │   ├── servicios/
+│   │   └── clienteApi.ts                      # cliente base + interceptores
 │   ├── utilidades/
-│   └── activos/                 # assets globales
+│   │   └── formatearFecha.ts
+│   └── activos/
+│       ├── logo.svg
+│       └── iconos/
+│
 ├── config/
+│   └── variablesEntorno.ts
 ├── router/
+│   └── rutas.tsx
 ├── store/
+│   └── authStore.ts
 └── estilos/
-    └── globales.css
+    └── globales.css                           # @tailwind base/components/utilities + @font-face, @keyframes
 ```
 
-Detalle completo de reglas, nomenclatura y stack de estilos en [SKILL.md](SKILL.md).
+Un módulo nunca importa directo de otro (solo de `compartido/`), cada uno expone solo lo necesario por su `index.ts`, y cualquier elemento repetido 2+ veces (header, botón, tarjeta) se extrae a `compartido/componentes/` en vez de recrearse por vista. Detalle completo de reglas, nomenclatura y stack de estilos en [SKILL.md](SKILL.md).
 
 ## Instalación
 
