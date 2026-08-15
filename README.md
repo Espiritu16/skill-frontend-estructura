@@ -205,9 +205,3 @@ usa la skill frontend-estructura para crear el módulo de productos
 ## Actualizar
 
 Si mejoras la skill localmente, vuelve a hacer commit y push a este repositorio para mantenerlo como fuente de verdad versionada, igual que con cualquier otro proyecto.
-
-## Relación con otras skills
-
-- No decide patrones de componentes específicos de framework (`frontend-patterns`, `react-patterns`, `vue-patterns`, `angular-developer`).
-- No decide accesibilidad ni dirección visual (`frontend`, `frontend-a11y`, `frontend-design-direction`).
-- Si el repositorio del proyecto usa [project-continuity](https://github.com/Espiritu16/project-continuity), esta skill es la que debe quedar referenciada en la sección "Documentación de referencia" del `AGENTS.md` de cada repositorio frontend — no se repite el árbol completo ahí, solo se referencia esta skill.
