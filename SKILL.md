@@ -9,6 +9,8 @@ Arquitectura por dominio/feature (screaming architecture), no por tipo de archiv
 
 ## Estructura estándar
 
+Ejemplo con React (ver "Nomenclatura por framework" abajo para el equivalente exacto en Vue/Angular — el principio de un módulo por dominio es el mismo en los tres, solo cambia el nombre de la subcarpeta de estado/lógica reactiva):
+
 ```
 src/
 ├── modulos/
@@ -16,7 +18,7 @@ src/
 │   │   ├── componentes/          # componentes SOLO de este módulo
 │   │   │   └── TarjetaUsuario.tsx
 │   │   │   └── TarjetaUsuario.test.tsx   # test junto al archivo que prueba
-│   │   ├── hooks/                 # hooks SOLO de este módulo
+│   │   ├── hooks/                 # React: hooks SOLO de este módulo (ver nomenclatura por framework)
 │   │   ├── servicios/             # llamadas API específicas del módulo
 │   │   ├── tipos/                  # tipos/interfaces del módulo
 │   │   ├── vistas/                 # un módulo casi siempre tiene varias vistas
@@ -64,10 +66,22 @@ src/
 ## Nomenclatura (coherente con `~/.claude/CLAUDE.md`)
 
 - Nombres de módulo/dominio: siempre en español (`usuarios`, `productos`, `pedidos`).
-- Subcarpetas técnicas dentro de cada módulo: en español (`componentes/`, `hooks/`, `servicios/`, `tipos/`, `utilidades/`). `hooks` se mantiene igual por ser un término ya estandarizado sin traducción natural.
-- Nombres de archivo de vista: `<Módulo>View.tsx` (ej. `UsuariosView.tsx`).
+- Subcarpetas técnicas dentro de cada módulo: en español (`componentes/`, `servicios/`, `tipos/`, `utilidades/`), salvo el término estandarizado sin traducción natural que corresponda a cada framework (ver "Nomenclatura por framework" abajo).
+- Nombres de archivo de vista: `<Módulo>View.tsx` (ej. `UsuariosView.tsx`) — mismo patrón en Vue/Angular con la extensión que corresponda.
 - Nombres de componente: descriptivos en español, ej. `TarjetaProducto.tsx`, `FormularioLogin.tsx` (nota: `Login` se mantiene por estar estandarizado, según la excepción ya definida en `CLAUDE.md`).
 - Nombres de servicio: `<entidad>Service` o `<entidad>Api`, ej. `usuarioService.ts`.
+
+### Nomenclatura por framework (subcarpeta de estado/lógica reactiva)
+
+La estructura domain-first (`modulos/<dominio>/`) es idéntica en los tres frameworks — lo único que cambia es el nombre de la subcarpeta para la lógica reactiva/con estado de cada módulo, porque cada framework tiene su propio término estandarizado para ese concepto:
+
+| Framework | Subcarpeta | Por qué |
+|---|---|---|
+| **React** | `hooks/` | Término real y estandarizado de React (`useAlgo`) — no se traduce. |
+| **Vue** (Composition API) | `composables/` | Equivalente real de Vue a un hook (`useAlgo` con `ref`/`computed`) — se llama "composable" en la comunidad Vue, no "hook". Usar `hooks/` en un proyecto Vue es un anglicismo mal aplicado, no la convención real del framework. |
+| **Angular** | *(no existe esta subcarpeta)* | Angular no tiene el concepto de hook/composable — la lógica reactiva con estado vive directo en `servicios/` (servicios inyectables con RxJS `Observable`/Signals), que ya es una subcarpeta existente. No crear una carpeta `hooks/` vacía ni forzar el concepto en un módulo Angular. |
+
+El resto de subcarpetas (`componentes/`, `servicios/`, `tipos/`, `vistas/`) se mantiene igual en los tres frameworks — este es el único punto donde la nomenclatura diverge por no ser un concepto compartido entre los tres.
 
 ## Consistencia de diseño: reutilizar, nunca rediseñar en cada vista
 
@@ -103,6 +117,7 @@ src/
 - ¿Cada test quedó junto a su archivo correspondiente, no en un árbol separado?
 - ¿Los assets globales quedaron en `compartido/activos/`, no dispersos por los módulos?
 - ¿Se usó Tailwind y la librería de componentes correspondiente al framework (shadcn/ui en React, shadcn-vue en Vue, spartan/ng en Angular), en vez de CSS a mano o una librería distinta sin acordarlo?
+- ¿La subcarpeta de lógica reactiva usa el término correcto del framework (`hooks/` en React, `composables/` en Vue, directo en `servicios/` en Angular — nunca `hooks/` en Vue o Angular)?
 
 ## Relación con otras skills
 
