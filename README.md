@@ -91,6 +91,61 @@ A partir de ahora, en este proyecto:
   lista de verificación final antes de dar por terminada una tarea.
 ```
 
+## Prompt de auto-instalación (copiar y pegar)
+
+En vez de correr los comandos tú mismo, puedes darle este prompt al agente (Claude Code o Codex) para que **él mismo** clone el repo, instale la skill y deje la referencia persistente configurada. La diferencia clave entre ambos: en Claude Code el archivo persistente es `CLAUDE.md`; en Codex el equivalente **no es `CLAUDE.md`, es `AGENTS.md`** — cada herramienta tiene su propio archivo de instrucciones globales, con su propia ubicación.
+
+### Para Claude Code
+
+```
+Instala la skill "frontend-estructura" desde este repositorio:
+https://github.com/Espiritu16/skill-frontend-estructura
+
+1. Clona el repositorio (o descarga SKILL.md directamente).
+2. Copia SKILL.md a ~/.claude/skills/frontend-estructura/SKILL.md
+   (crea la carpeta si no existe).
+3. Abre ~/.claude/CLAUDE.md (créalo si no existe, sin borrar contenido que
+   ya tenga) y agrega, si no está ya, esta sección:
+
+   ## Estructura de frontend
+   - Al crear, organizar o revisar cualquier proyecto frontend, usar siempre
+     la skill `frontend-estructura` para la organización de carpetas,
+     nomenclatura y stack de estilos — no improvisar una estructura nueva.
+
+4. Confirma qué archivos quedaron creados o modificados.
+```
+
+### Para Codex
+
+```
+Instala la skill "frontend-estructura" desde este repositorio:
+https://github.com/Espiritu16/skill-frontend-estructura
+
+1. Clona el repositorio (o descarga SKILL.md directamente).
+2. Copia SKILL.md a ~/.codex/skills/frontend-estructura/SKILL.md
+   (crea la carpeta si no existe).
+3. Abre ~/.codex/AGENTS.md (créalo si no existe, sin borrar contenido que ya
+   tenga — en Codex este archivo cumple el rol que CLAUDE.md cumple en
+   Claude Code) y agrega, si no está ya, esta sección:
+
+   ## Estructura de frontend
+   - Al crear, organizar o revisar cualquier proyecto frontend, leer y
+     seguir ~/.codex/skills/frontend-estructura/SKILL.md para la
+     organización de carpetas, nomenclatura y stack de estilos — no
+     improvisar una estructura nueva.
+
+4. Confirma qué archivos quedaron creados o modificados.
+```
+
+**Nota sobre dónde va cada cosa:**
+
+| | Claude Code | Codex |
+|---|---|---|
+| Skill instalada en | `~/.claude/skills/frontend-estructura/` | `~/.codex/skills/frontend-estructura/` |
+| Archivo de instrucciones persistentes/globales | `~/.claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
+
+No mezclar los dos: pegarle a Codex un prompt que le diga "agrega esto a CLAUDE.md" no tendría efecto — Codex no lee ese archivo, lee `AGENTS.md`.
+
 ## Uso
 
 Una vez instalada, simplemente pide lo que necesites de forma natural — no hace falta nombrarla:
