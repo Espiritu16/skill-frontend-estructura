@@ -118,7 +118,7 @@ src/
 - ¿Ningún elemento de layout (header/footer/sidebar/nav) quedó redefinido dentro de un módulo en vez de vivir en `compartido/componentes/layout/`?
 - ¿Cada test quedó junto a su archivo correspondiente, no en un árbol separado?
 - ¿Los assets globales quedaron en `compartido/activos/`, no dispersos por los módulos?
-- Si la tarea tocó UI/estilos (no aplica a una reorganización puramente estructural): ¿se usó Tailwind y la librería de componentes correspondiente al framework (shadcn/ui en React, shadcn-vue en Vue, spartan/ng en Angular), en vez de CSS a mano o una librería distinta sin acordarlo?
+- Si es un proyecto nuevo, o la tarea tocó UI/estilos (no aplica a una reorganización puramente estructural sobre un proyecto ya existente): ¿se usó Tailwind y la librería de componentes correspondiente al framework (shadcn/ui en React, shadcn-vue en Vue, spartan/ng en Angular), en vez de CSS a mano o una librería distinta sin acordarlo?
 - ¿La subcarpeta de lógica reactiva usa el término correcto del framework (`hooks/` en React, `composables/` en Vue, directo en `servicios/` en Angular — nunca `hooks/` en Vue o Angular)?
 
 ## Relación con otras skills
