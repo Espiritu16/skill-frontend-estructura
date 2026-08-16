@@ -48,7 +48,7 @@ src/
 2. **Cada módulo expone solo lo necesario por su `index.ts`** (barrel export) — para consumo de otros módulos y de la composición raíz por igual. El resto de sus archivos se trata como privado del módulo, aunque el lenguaje no lo fuerce técnicamente.
 3. **Ninguna carpeta acumula todo suelto.** Si un módulo crece mucho (muchos componentes, muchas vistas), se subdivide en submódulos — nunca se deja una carpeta plana con decenas de archivos sin agrupar.
 4. **El nombre del módulo es el dominio de negocio**, no una capa técnica (`usuarios`, `productos`, `pedidos` — no `formularios`, `listados`, `paginas`).
-5. Antes de crear un archivo nuevo, ubicar primero a qué módulo pertenece por dominio; si es genuinamente reutilizable entre 2+ módulos, va en `compartido/`.
+5. Antes de crear un archivo nuevo, ubicar primero a qué módulo pertenece por dominio. Si es reutilizable entre 2+ módulos, primero preguntar si tiene un dueño claro: si sí, se expone por el `index.ts` de ese módulo dueño (regla 1) y los demás lo consumen de ahí; solo va en `compartido/` cuando es genuinamente agnóstico de dominio, sin dueño posible.
 6. **Tests siempre junto al archivo que prueban** (`Componente.tsx` + `Componente.test.tsx` en la misma carpeta) — nunca en un árbol `__tests__/` espejo aparte.
 7. **Assets globales** (logo, iconos compartidos, fuentes) van en `compartido/activos/`. Un asset específico de un solo módulo (ej. una ilustración que solo usa la vista de bienvenida de `usuarios`) vive dentro de ese módulo, no en `compartido/`.
 
@@ -111,14 +111,14 @@ src/
 ## Verificación antes de dar por terminada una tarea de organización
 
 - ¿Cada archivo nuevo quedó dentro de su módulo de dominio, no en una carpeta técnica genérica?
-- ¿Ningún módulo importa directo de otro módulo?
+- ¿Ningún módulo importa directo de un archivo interno de otro módulo (solo a través de su `index.ts` público)?
 - ¿El módulo sigue exponiendo solo lo necesario por `index.ts`?
 - ¿Ninguna carpeta quedó con archivos sueltos sin agrupar por sub-responsabilidad?
 - ¿Se reutilizó un componente de `compartido/` en vez de recrear una versión nueva del mismo elemento (header, footer, botón, tabla)?
 - ¿Ningún elemento de layout (header/footer/sidebar/nav) quedó redefinido dentro de un módulo en vez de vivir en `compartido/componentes/layout/`?
 - ¿Cada test quedó junto a su archivo correspondiente, no en un árbol separado?
 - ¿Los assets globales quedaron en `compartido/activos/`, no dispersos por los módulos?
-- ¿Se usó Tailwind y la librería de componentes correspondiente al framework (shadcn/ui en React, shadcn-vue en Vue, spartan/ng en Angular), en vez de CSS a mano o una librería distinta sin acordarlo?
+- Si la tarea tocó UI/estilos (no aplica a una reorganización puramente estructural): ¿se usó Tailwind y la librería de componentes correspondiente al framework (shadcn/ui en React, shadcn-vue en Vue, spartan/ng en Angular), en vez de CSS a mano o una librería distinta sin acordarlo?
 - ¿La subcarpeta de lógica reactiva usa el término correcto del framework (`hooks/` en React, `composables/` en Vue, directo en `servicios/` en Angular — nunca `hooks/` en Vue o Angular)?
 
 ## Relación con otras skills
