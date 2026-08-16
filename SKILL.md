@@ -44,8 +44,8 @@ src/
 
 ## Reglas
 
-1. **Un módulo nunca importa directo de otro módulo.** Solo puede importar de `compartido/`. Si dos módulos necesitan lo mismo, ese código sube a `compartido/`, no se duplica ni se importa cruzado.
-2. **Cada módulo expone solo lo necesario por su `index.ts`** (barrel export). El resto de sus archivos se trata como privado del módulo, aunque el lenguaje no lo fuerce técnicamente.
+1. **Un módulo nunca importa directo de un archivo interno de otro módulo** (ej. `productos/componentes/Tarjeta.tsx` desde `pedidos/`). Si un módulo necesita algo que otro módulo dueño ya expone, lo consume a través del `index.ts` de ese módulo — la puerta pública existe para eso, no solo para el router/composición raíz. Solo cuando el código es genuinamente agnóstico de dominio (no pertenece a ningún módulo en particular, ej. un formateador de fechas) sube a `compartido/`. No mover a `compartido/` algo que sí tiene un dueño claro solo porque otro módulo lo necesita — eso reemplaza el límite de dominio por un cajón de sastre.
+2. **Cada módulo expone solo lo necesario por su `index.ts`** (barrel export) — para consumo de otros módulos y de la composición raíz por igual. El resto de sus archivos se trata como privado del módulo, aunque el lenguaje no lo fuerce técnicamente.
 3. **Ninguna carpeta acumula todo suelto.** Si un módulo crece mucho (muchos componentes, muchas vistas), se subdivide en submódulos — nunca se deja una carpeta plana con decenas de archivos sin agrupar.
 4. **El nombre del módulo es el dominio de negocio**, no una capa técnica (`usuarios`, `productos`, `pedidos` — no `formularios`, `listados`, `paginas`).
 5. Antes de crear un archivo nuevo, ubicar primero a qué módulo pertenece por dominio; si es genuinamente reutilizable entre 2+ módulos, va en `compartido/`.
@@ -53,6 +53,8 @@ src/
 7. **Assets globales** (logo, iconos compartidos, fuentes) van en `compartido/activos/`. Un asset específico de un solo módulo (ej. una ilustración que solo usa la vista de bienvenida de `usuarios`) vive dentro de ese módulo, no en `compartido/`.
 
 ## Stack de estilos
+
+Aplica al crear un proyecto nuevo o cuando la tarea ya implica trabajar UI/estilos — no a una tarea puramente estructural (reorganizar carpetas) que no toca componentes visuales; ahí no se agregan estas dependencias solo por aplicar esta skill.
 
 - **Tailwind CSS siempre**, en todo proyecto frontend nuevo, sin importar el framework.
 - **Librería de componentes según el framework detectado** (primitives sobre Tailwind, nunca una librería con su propio sistema de theming que compita con Tailwind):
@@ -63,12 +65,12 @@ src/
 - **CSS nativo** (`estilos/globales.css`): solo para lo que Tailwind no resuelve bien — `@font-face`, reset global, `@keyframes` complejas. Nunca para estilizar un componente entero a mano cuando Tailwind ya lo cubre; eso vuelve a caer en el problema de inconsistencia que ya vimos en "Consistencia de diseño".
 - Nunca mezclar Tailwind con otra librería CSS-in-JS o de utilidades (Bootstrap, Bulma, styled-components) por decisión propia — si el proyecto ya trae una de estas antes de aplicar esta skill, se respeta lo existente y se señala la inconsistencia, no se reemplaza sin acordarlo con el usuario.
 
-## Nomenclatura (coherente con `~/.claude/CLAUDE.md`)
+## Nomenclatura (coherente con las instrucciones globales del agente — `CLAUDE.md`/`AGENTS.md` según corresponda)
 
 - Nombres de módulo/dominio: siempre en español (`usuarios`, `productos`, `pedidos`).
 - Subcarpetas técnicas dentro de cada módulo: en español (`componentes/`, `servicios/`, `tipos/`, `utilidades/`), salvo el término estandarizado sin traducción natural que corresponda a cada framework (ver "Nomenclatura por framework" abajo).
 - Nombres de archivo de vista: `<Módulo>View.tsx` (ej. `UsuariosView.tsx`) — mismo patrón en Vue/Angular con la extensión que corresponda.
-- Nombres de componente: descriptivos en español, ej. `TarjetaProducto.tsx`, `FormularioLogin.tsx` (nota: `Login` se mantiene por estar estandarizado, según la excepción ya definida en `CLAUDE.md`).
+- Nombres de componente: descriptivos en español, ej. `TarjetaProducto.tsx`, `FormularioLogin.tsx` (nota: `Login` se mantiene por estar estandarizado, según la excepción de nomenclatura de las instrucciones globales).
 - Nombres de servicio: `<entidad>Service` o `<entidad>Api`, ej. `usuarioService.ts`.
 
 ### Nomenclatura por framework (subcarpeta de estado/lógica reactiva)
@@ -95,7 +97,7 @@ Problema que esta regla previene: recrear el mismo elemento (header, footer, sid
 
 ## Si el framework exige otra estructura raíz
 
-Frameworks como Next.js (`app/`, `pages/`) o Nuxt (`pages/`, `layouts/`) imponen carpetas raíz fijas por convención propia — esas se respetan tal cual (ver regla de `CLAUDE.md`: no se traduce lo que el framework exige). La organización por `modulos/`/`compartido/` se aplica **dentro** de esas carpetas obligatorias, no en vez de ellas. Ejemplo con Next.js App Router:
+Frameworks como Next.js (`app/`, `pages/`) o Nuxt (`pages/`, `layouts/`) imponen carpetas raíz fijas por convención propia — esas se respetan tal cual (no se traduce lo que el framework exige). Esas carpetas obligatorias solo contienen lo que el framework mismo requiere ahí (rutas, layouts); la organización por `modulos/`/`compartido/` vive fuera de ellas, en `src/`, tal como muestra el ejemplo — "no en vez de ellas" significa que no se elimina `app/`/`pages/`, no que `modulos/` deba anidarse dentro. Ejemplo con Next.js App Router:
 
 ```
 app/
